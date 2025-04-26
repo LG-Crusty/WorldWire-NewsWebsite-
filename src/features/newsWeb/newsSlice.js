@@ -1,31 +1,20 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-import useNewsApi from "@/hooks/useNewsApi";
-import { useReducer, useState } from "react";
+import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = {
-    newsData: [],
-}
+  newsData: [],
+};
 
 export const newsSlice = createSlice({
-    name: "news",
-    initialState,
-    reducers: {
-        setNews: (state, action) => {
-            const { id, snippet, headline, writtenby, imageUrl, newsDesk } = action.payload;
-            const newsVal = {
-                id: id,
-                headline: headline,
-                snippet: snippet,
-                writtenby: writtenby,
-                imageUrl: imageUrl,
-                category: newsDesk,
-            }
-            state.newsData.push(newsVal)
-        },
-    }
-})
+  name: "news",
+  initialState,
+  reducers: {
+    setNews: (state, action) => {
+      state.newsData = action.payload;
+    },
+  },
+});
 
-export const { setNews } = newsSlice.actions
+export const { setNews } = newsSlice.actions;
 
-export default newsSlice.reducer
+export default newsSlice.reducer;
