@@ -1,60 +1,95 @@
 import React, { useEffect, useState } from "react";
 import Cardbig from "@/components/newsCards/cardBig";
-import Cardsmall from "@/components/newsCards/cardSmall";
-import Trending from "@/components/newsCards/trending";
-import Newsletter from "@/components/newsCards/newsletter";
-import Categories from "@/components/newsCards/categories";
-import { useSelector, useDispatch } from "react-redux";
-import { setNews } from "@/features/newsWeb/newsSlice";
+import Science from "@/components/newsCards/science";
+import Stories from "@/components/newsCards/stories";
+import Politics from "@/components/newsCards/politics";
+import Nature from "@/components/newsCards/nature";
+import Tech from "@/components/newsCards/tech";
+import Footer from "@/components/footer";
 import useNewsApi from "@/hooks/useNewsApi";
+import { useDispatch } from "react-redux";
+import {
+  sethomeNews,
+  setpoliticsNews,
+  setscienceNews,
+  settechNews,
+  setwildlifeNews,
+} from "../features/newsWeb/newsSlice";
 
 function Home() {
   const dispatch = useDispatch();
-  const {newsData} = useNewsApi("home");
+
+  const homeNews = useNewsApi("home");
+  const techNews = useNewsApi("technology");
+  const scienceNews = useNewsApi("science");
+  const wildlifeNews = useNewsApi("wildlife");
+  const politicsNews = useNewsApi("politics");
 
   useEffect(() => {
-     if (newsData?.docs && newsData.docs.length > 0) {
-       const valNews = newsData.docs.map((e) => {
-         return {
-           id: e._id,
-           headline: e.headline.main,
-           snippet: e.abstract,
-           writtenby: e.byline.original,
-           imageUrl: e.multimedia.default.url,
-           newsDesk: e.news_desk,
-         };
-       });
-       dispatch(setNews(valNews));
-     }
-  }, [newsData]);
+    const newsConfig = {
+      home: {
+        data: homeNews,
+        action: sethomeNews,
+      },
+      tech: {
+        data: techNews,
+        action: settechNews,
+      },
+      science: {
+        data: scienceNews,
+        action: setscienceNews,
+      },
+      wildlife: {
+        data: wildlifeNews,
+        action: setwildlifeNews,
+      },
+      politics: {
+        data: politicsNews,
+        action: setpoliticsNews,
+      },
+    };
 
-  const newsVal = useSelector((state) => state.newsData);
-  const cSmallNews = newsVal.slice(1, newsVal.length - 3);
+    const valExtractor = (raw) =>
+      raw.newsData.map((e) => ({
+        id: e._id,
+        headline: e.headline.main,
+        snippet: e.abstract,
+        imageUrl: e.multimedia.default.url,
+        writtenby: e.byline.original,
+        category: e.news_desk,
+      }));
+
+    Object.entries(newsConfig).forEach(([key, { data, action }]) => {
+      if (data?.newsData?.length) {
+        const extractedData = valExtractor(data);
+        dispatch(action(extractedData));
+      }
+      console.log("inside useEffect");
+    });
+  }, [homeNews, techNews, scienceNews, wildlifeNews, politicsNews]);
 
   return (
+    <div className="w-full h-screen flex flex-row flex-wrap gap-x-10  mt-5">
+      <Cardbig />
 
-    <div className="w-auto h-auto text-white mt-10 ml-3 p-3 relative ">
-      <Cardbig val={newsVal[0] } />
+      <Science />
 
-      <div className="w-[750px] h-auto  mt-10 px-2 py-1 flex flex-row flex-wrap justify-between border-black border-2">
-        <p className="text-[25px] text-black ">LatestNews</p>
-        <button className="text-[25px] text-black w-max h-auto bg-blue-400 px-2 py-1 border-2 rounded-[10px] border-blue-700">
-          ViewAll
-        </button>
+      <div className="w-full h-auto pb-8 border-b border-gray-300">
+        <div className="w-full px-5 h-auto min-h-80 mt-10 text-white flex flex-col pb-8  bg-black relative font-lora">
+          <div className="w-full h-13 z-0  border-b border-gray-400 "></div>
+          <div className=" w-max h-auto bg-black absolute top-4 pr-3 z-10 flex justify-center font-bold text-[45px]">
+            STORIES
+          </div>
+          <Stories />
+        </div>
       </div>
 
-      <div className="w-[830px] h-auto p-2 flex flex-row flex-wrap gap-x-5 ">
-        {cSmallNews.map((e) => {
-          return <Cardsmall key={e.id} />;
-        })}
-      </div>
-
-      <div className=" w-[520px] h-auto absolute right-0 top-[550px] p-3 bg-red-600 mr-5 ">
-        <Trending />
-        <Categories />
-        <Newsletter />
-      </div>
+      <Politics />
+      <Nature />
+      <Tech />
+      <Footer />
     </div>
   );
 }
+
 export default Home;

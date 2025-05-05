@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <div className="mt-10 w-screen h-auto flex flex-col flex-wrap gap-y-5 bg-black p-4 text-white">
+    <div className="mt-10 w-full h-auto  flex flex-col flex-wrap gap-y-5 bg-gray-400 p-4 text-white">
       {/* top section */}
       <div className=" w-full h-auto p-8 flex flex-row flex-wrap justify-between">
         <div className=" flex flex-col flex-wrap gap-y-3">

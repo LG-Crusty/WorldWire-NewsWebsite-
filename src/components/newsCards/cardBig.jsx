@@ -1,41 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-function Cardbig(val) {
-  console.log(val)
-  const random = Object.values(val);
-  const data = random[0];
-  const {headline, snippet, newsDesk, imageUrl, writtenby} = data;
+function Cardbig() {
+  const [newsState, setnewsState] = useState({
+    id: null,
+    headline: null,
+    snippet: null,
+    imageUrl: null,
+    writtenby: null,
+    category: null,
+  });
+  const val = useSelector((state) => {
+    return state.homenewsData;
+  });
+
+  useEffect(() => {
+    if (val.length > 0) {
+      const Data = val[0];
+      const { id, headline, snippet, writtenby, category, imageUrl } = Data;
+      setnewsState((prev) => ({
+        ...prev,
+        id: id,
+        headline: headline,
+        snippet: snippet,
+        writtenby: writtenby,
+        category: category,
+        imageUrl: imageUrl
+      }));
+    }
+  }, [val]);
 
   return (
-    <a
-      href="#"
-      class=" w-[1300px] flex flex-col items-center h-[500px]  bg-black border-gray-200 rounded-lg shadow-sm md:flex-row  p-5 t hover:scale-105 transition-transform duration-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 ml-5"
-    >
+    <div class="w-full h-[450px]  font-lora flex flex-row justify-between ">
+      <div className="w-[32.5%] h-auto  flex flex-col justify-center text-center px-3">
+        <div className="w-full h-auto flex justify-center">
+          <p className="w-max h-auto bg-sky-600 text-white px-2 py-1">
+            {newsState ? newsState.category : "no data"}
+          </p>
+        </div>
+        <a href="">
+          <p className="text-[30px]">
+            {newsState ? newsState.headline : "no data"}
+          </p>
+        </a>
+        <p className="text-[16px] ">
+          {newsState ? newsState.snippet : "no data"}
+        </p>
+        <p className="italic">{newsState ? newsState.writtenby : "no data"}</p>
+      </div>
       <img
-        class="w-[480px] border-2 border-white rounded-t-lg h-[470px] md:rounded-none md:rounded-s-lg"
-        src={imageUrl}
+        src={newsState ? newsState.imageUrl : "no data"}
+        className="w-[68.5%] h-full"
         alt=""
       />
-      <div class="flex flex-col flex-wrap px-4 py-2 w-auto h-auto ml-2 gap-y-5 mt-3 ">
-        <p className="w-max h-auto inline-block bg-blue-800 text-white border-1 rounded-md px-2 py-1z ">
-          {newsDesk}
-        </p>
-        <p class="mb-2 text-[40px] font-bold tracking-tight text-white dark:text-white">
-          {headline}
-        </p>
-        <p class="mb-3 text-[18px] text-white dark:text-gray-400">
-          {snippet}
-        </p>
-        <div className="w-auto h-auto flex flex-row flex-wrap gap-x-5">
-          <p>8min Read</p>
-          <p>{writtenby}</p>
-        </div>
-        <button className="w-auto h-auto bg-violet-900 py-3 rounded-lg">
-          Read Full Story
-        </button>
-      </div>
-    </a>
+    </div>
   );
 }
-
 export default Cardbig;

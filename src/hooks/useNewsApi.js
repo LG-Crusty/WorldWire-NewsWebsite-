@@ -10,15 +10,16 @@ function useNewsApi(query) {
         "https://api.nytimes.com/svc/search/v2/articlesearch.json",
         {
           params: {
+            // q: query.join(" OR "),
             q: query,
             "api-key": apiValue,
           },
         }
       );
-      const reqData = val.data.response;
-      if (reqData)
-      { setNewsData(reqData); }
-     ;
+      const reqData = val.data.response.docs;
+      if (reqData) {
+        setNewsData(reqData);
+      }
     } catch (error) {
       console.log(`the ERROR is ${error}`);
       return;

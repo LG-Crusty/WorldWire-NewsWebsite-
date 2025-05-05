@@ -1,18 +1,22 @@
 import React from "react";
 import Navbar from "./navbar";
-import { Outlet } from "react-router-dom";
+import Cardbig from "./newsCards/cardBig";
+import Science from "./newsCards/science";
+import { Car } from "lucide-react";
 
 function Header() {
   return (
     <>
-      <div className="w-screen h-auto pt-3 flex flex-col flex-wrap">
-        <h2 className="w-screen h-auto flex justify-center text-[30px] ">
-          WorldWire
-        </h2>
-
-        <div className="w-screen h-auto mt-5 py-2 px-10 bg-slate-500">
-          <Navbar />
+      <div className="w-full h-auto pt-2 flex flex-col flex-wrap bg-white">
+        <div className="w-full h-auto px-28 text-black flex flex-row flex-wrap justify-between border-b-1 border-b-gray-300">
+          <button className="text-[25px]">
+            <i class="bx bx-search"></i>
+          </button>
+          <button className="text-[25px]">
+            <i class="bx bx-menu"></i>
+          </button>
         </div>
+        <Navbar />
       </div>
     </>
   );

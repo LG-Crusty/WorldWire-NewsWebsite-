@@ -1,21 +1,31 @@
-import React from 'react'
+import React from "react";
 
-function Cardsmall(val) {
-    const random = Object.values(val);
-    const data = random[0];
-    const { headline, snippet, newsDesk, imageUrl, writtenby } = data;
+function Cardsmall(value) {
+  console.log(value);
+  const data = value.val;
+  const { id, headline, snippet, writtenby, category, imageUrl } = data;
+
   return (
-      <div className='w-[390px] h-auto bg-white mt-2 gap-y-4 flex flex-col flex-wrap rounded-[10px] border-2 border-black'>
-          <img className='w-auto h-auto rounded-t-[10px]'
-          src={imageUrl} alt="" />
-          <p className='text-[25px] text-black mx-3 '>{headline}</p>
-          <p className='text-md mx-3 text-black'>{snippet}</p>
-          <div className='flex flex-wrap flex-row justify-between px-3 mb-3 text-black'>
-              <p>7min read</p>
-              <p>{writtenby}</p>
-          </div>
+    <div className="w-full h-auto min-h-30  font-lora">
+      <img
+        // src="https://fox.withemes.com/london/wp-content/uploads/sites/89/2024/07/joel-filipe-BNcdsnUNqUY-unsplash-480x384.jpg"
+        src={imageUrl}
+        className="w-full h-[250px]"
+        alt=""
+      />
+      <div className="w-full h-auto mt-4 flex flex-col text-center">
+        <p className="text-[16px] uppercase w-max px-2 py-1 mx-auto bg-blue-500 text-white">
+          {" "}
+          science
+        </p>
+        <a href="">
+          <p className="text-[30px]">{headline}</p>
+        </a>
+        <p>{snippet}</p>
+        <p className="uppercase italic">{writtenby}</p>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Cardsmall
+export default Cardsmall;
