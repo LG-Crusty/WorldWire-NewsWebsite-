@@ -13,7 +13,7 @@ export const newsSlice = createSlice({
   initialState,
   reducers: {
     sethomeNews: (state, action) => {
-      state.homenewsData = action.payload
+      state.homenewsData = action.payload;
     },
     settechNews: (state, action) => {
       state.technologynewsData = action.payload;
